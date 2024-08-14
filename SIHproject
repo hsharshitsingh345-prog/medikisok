@@ -1,0 +1,128 @@
+# MediKiosk: AI-Powered Digital Clinical Intake & Document Intelligence Platform
+## Problem Statement & Technical Solution Document (Smart India Hackathon / Healthcare Innovation)
+
+---
+
+### 1. Executive Summary & Problem Analysis
+
+#### 1.1 The Clinical History-Taking Bottleneck in Indian Hospitals
+History taking — the structured elicitation of presenting complaints, history of present illness (HPI), past medical and surgical history, drug and allergy history, family and personal history, and review of systems — is the single most important diagnostic activity in clinical medicine. Classical evidence demonstrates that a rigorous clinical history yields the correct provisional diagnosis in 70–80% of cases, prior to physical examination or investigation.
+
+In India's overburdened public healthcare institutions (AIIMS, State Medical Colleges, and District Hospitals), outpatient departments (OPDs) routinely register 4,000 to 10,000 patients daily. Consultation times average between **2 and 5 minutes per patient** (BMJ Open multi-country survey). Within this microscopic window, the physician must simultaneously elicit history, conduct physical examination, review messy paper files, formulate diagnoses, counsel the patient, and prescribe treatments.
+
+#### 1.2 The AYUSH OPD Complexity
+Ayurvedic OPDs face an even greater time deficit. Ayurvedic history taking is fundamentally holistic and personalized, demanding:
+- **Trividha & Ashtavidha Pariksha** (Nadi, Mutra, Mala, Jihva, Shabda, Sparsha, Druk, Akriti)
+- **Dashavidha Pariksha** (Prakriti, Vikriti, Sara, Samhanana, Pramana, Satmya, Sattva, Ahara Shakti, Vyayama Shakti, Vaya)
+- **Agni & Koshtha Pariksha** (Mandagni, Tikshnagni, Vishamagni, Samagni; Krura, Mridu, Madhyama)
+- **Ahara-Vihara Assessment** (Nidana, dietetics, sleep habits, emotional stress, and daily regimen)
+
+Manually capturing this depth under heavy OPD load is virtually impossible, forcing clinicians to truncate the very assessment that defines Ayurvedic precision medicine.
+
+#### 1.3 Documentation & Records Fragmentation
+Indian patients carry disjointed physical paper records — handwritten OPD slips, NABL diagnostic lab sheets, and discharge summaries across multiple healthcare providers. Valuable consultation minutes are lost decoding unstructured paper. Furthermore, while the **Ayushman Bharat Digital Mission (ABDM)** has deployed ABHA IDs and FHIR standards, the critical "first-mile" intake bottleneck at hospital gates remains unaddressed.
+
+---
+
+### 2. The Solution: 'MediKiosk' Platform
+
+**MediKiosk** is a patient-facing, multimodal self-service clinical kiosk and physician workstation platform that offloads structured history taking and document digitization to before the patient enters the consultation room.
+
+```
++-----------------------------------------------------------------------------------+
+|                            PATIENT KIOSK TERMINAL                                 |
+|                                                                                   |
+|  [Step 1: Identify & Consent] -> [Step 2: Voice & Touch] -> [Step 3: Scan Docs]   |
+|   - ABHA ID / Aadhaar Auth       - Multilingual ASR (Bhashini) - Indic OCR        |
+|   - DPDP Act 2023 Audio Consent  - SOCRATES Reasoning         - NER Extraction    |
+|                                  - AYUSH Dashavidha Mode      - Abnormal Labs     |
+|                                  - Real-time Red Flags                            |
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+|                        CLINICAL INTELLIGENCE & ABDM ENGINE                        |
+|                                                                                   |
+|  - Structured SOAP Summary Synthesis                                              |
+|  - HL7 FHIR R4 Document Bundle Generation                                         |
+|  - ABDM Health Information Provider (HIP) Bridge Sync                             |
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+|                         DOCTOR OPD CONSULTATION CONSOLE                           |
+|                                                                                   |
+|  - Real-Time Priority Patient Queue with ESI Level Badges                         |
+|  - 15-Second Structured Clinical Summary Review                                   |
+|  - Highlighted Out-of-Range Lab Biomarkers (Troponin, Creatinine, HbA1c, etc.)    |
+|  - 100% Doctor Verification Control & 1-Click Push to Hospital Information System|
++-----------------------------------------------------------------------------------+
+```
+
+---
+
+### 3. Integrated Software & AI Architecture (Table 3.2 & 3.3)
+
+| Module / Layer | Component / Model | Functionality | Regulatory & Standards Compliance |
+| :--- | :--- | :--- | :--- |
+| **Kiosk User Interface** | React 19, Vite, High-Contrast Accessible Design System | Patient touch terminal & Doctor workstation | WCAG 2.1 AA, Kiosk Touchscreen Optimized |
+| **Module A: Conversational History Engine** | Web Speech API, Indic Speech Models (Bhashini / AI4Bharat) | Speech recognition & synthesis across Hindi, English, and regional accents | Multilingual Indic Phonetics, Audio Guidance |
+| **Clinical Reasoning Engine** | Adaptive Clinical Ontology + SOCRATES Framework | Dynamic clinical branching for chest pain, breathlessness, abdominal pain, fever, etc. | Standard Clinical History Taking Protocols |
+| **AYUSH Pariksha Framework** | Dashavidha & Prakriti Algorithm | Evaluates Vata/Pitta/Kapha balance, Agni, Koshtha, and Ahara-Vihara lifestyle | AYUSH Standard Treatment Guidelines |
+| **Real-time Emergency Triage** | Clinical Heuristic Rule Engine | Instant red-flag identification for acute STEMI, stroke, severe respiratory failure, sepsis | Emergency Severity Index (ESI Level 1 & 2) |
+| **Module B: Document Intelligence** | Multilingual Indic OCR + Clinical Named Entity Recognition (NER) | Scans handwritten prescriptions, lab sheets, and discharge cards; extracts active meds and labs | ICD-10, LOINC (Labs), RxNorm / Indian Pharmacopoeia |
+| **Biomarker Anomaly Highlighting** | Reference Range Comparator & Drug Safety Checker | Flags out-of-range lab values (Troponin, Creatinine, HbA1c, Potassium) & drug-drug interactions | Clinical Laboratory Safety Guidelines |
+| **Module C: Summary Generator** | Structured Clinical History Synthesizer | Formulates complete SOAP history ready for doctor review in under 15 seconds | Standard Medical Record Protocols |
+| **Module D: Identity & Privacy** | ABDM M1/M2/M3 Engine + DPDP Act 2023 Consent Manager | ABHA ID authentication, OTP/QR scan, granular audio consent, zero persistent RAM retention | ABDM (NHA), DPDP Act 2023, ISO 27701 |
+| **Health Interoperability** | HL7 FHIR R4 Bundle Generator | Converts clinical intake into standard JSON bundles (Patient, Encounter, Condition, Observation, MedicationStatement) | NRCES India FHIR R4 Profiles |
+
+---
+
+### 4. Step-by-Step Patient & Doctor Workflow
+
+1. **Step 1 — Identify & Consent**:
+   - Patient enters or scans their 14-digit ABHA ID or Aadhaar details.
+   - Kiosk presents the **DPDP Act 2023 Consent Agreement** with an **audio read-aloud option** for low-literacy or elderly users.
+   - Granular toggles allow patients to approve clinical intake, document OCR, and ABDM sync.
+
+2. **Step 2 — Conversational History Taking (Voice + Touch)**:
+   - Patient speaks naturally or taps on large, high-contrast complaint cards.
+   - The AI branches dynamically using **SOCRATES** (Site, Onset, Character, Radiation, Associations, Time, Exacerbating/relieving, Severity).
+   - In **AYUSH Mode**, the kiosk administers the **Dashavidha Pariksha** and **Prakriti** questionnaire.
+   - If emergency symptoms are identified (e.g. crushing chest pain with left arm radiation), an **Emergency Red-Flag Siren Alert** immediately directs the patient to Casualty Desk 1.
+
+3. **Step 3 — Document Digitization & OCR**:
+   - Patient places prior prescriptions and lab panels under the high-resolution scanner.
+   - Optical Character Recognition extracts diagnoses, active medications with dosages, and lab test values with reference ranges.
+   - Out-of-range lab anomalies and medication interaction risks are automatically tagged.
+
+4. **Step 4 — Summary Generation & OPD Token Issuance**:
+   - The system synthesizes conversational data and document extractions into a standardized clinical summary.
+   - A physical/digital **OPD Token Card** is generated with wait time estimates and room guidance.
+   - Spoken bilingual voice confirmation reassures the patient.
+   - Kiosk RAM is automatically sanitized according to DPDP privacy regulations.
+
+5. **Step 5 — Doctor Consultation**:
+   - The patient appears in the doctor's live queue with appropriate triage priority badges.
+   - The physician reviews the complete structured summary in **under 15 seconds**.
+   - The physician retains full editorial control to add examination findings before saving to the hospital HIS or exporting the ABDM FHIR R4 bundle.
+   - The remaining 90%+ of consultation time is dedicated entirely to physical examination, diagnostic reasoning, and compassionate counselling.
+
+---
+
+### 5. Running the Application Locally
+
+The project is structured with a modern React + Vite application:
+
+```bash
+# Install dependencies
+npm.cmd install
+
+# Run the development server
+npm.cmd run dev
+
+# Build production bundle
+npm.cmd run build
+```
+
+The application runs locally at `http://localhost:5173/` with full interactive support for both Patient Kiosk Mode and Doctor OPD Console.
